@@ -36,10 +36,19 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
 });
 
 app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/../public/index.html'));
+    res.sendFile(path.join(__dirname + '/../public/index.html'));
 });
 
-app.get('/', (req, res) => res.send('Express World!'));
+app.get('/user', (req, res) => {
+    console.log('getting user data');
+    res.send(user);
+});
+
+app.get('/auth/logout', (req, res) => {
+    console.log('logging out!');
+    user = {};
+    res.redirect('/');
+});
 
 const port = process.env.PORT || 3000;
 
