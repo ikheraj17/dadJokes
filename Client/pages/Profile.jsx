@@ -1,19 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 const Profile = () => {
 
+    const [name, setName] = useState('woop');
+
     useEffect(() => {
         axios.get('/user')
           .then(user => {
-              console.log(user.data);
+              console.log(user.data.displayName);
+              setName(user.data.displayName);
           })
     })
 
     return(
         <div>
         <p>
-            You have successfully logged in!
+            Welcome, {`${name}`}!
             Enter your phone number below to start
             the flow of daily dad jokes straight to your 
             mobile device. 
