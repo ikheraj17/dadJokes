@@ -4,7 +4,9 @@ const Home = () => {
     return (
         <div>
             <p>Welcome to the Wonderland of Dad Jokes!</p>
-            <button>Log in with Google to get started</button>
+            <form action="auth/google">
+                <input type="submit" value="Log in with google to get started!" />
+            </form>
         </div>
     )
 };

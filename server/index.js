@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const path = require('path');
 const env = require('dotenv').config();
 const app = express();
 app.use(cors());
@@ -35,10 +36,6 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
     res.redirect('/profile');
 });
 
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname + '/../public/index.html'));
-});
-
 app.get('/user', (req, res) => {
     console.log('getting user data');
     res.send(user);
@@ -48,6 +45,10 @@ app.get('/auth/logout', (req, res) => {
     console.log('logging out!');
     user = {};
     res.redirect('/');
+});
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname + '/../public/index.html'));
 });
 
 const port = process.env.PORT || 3000;
