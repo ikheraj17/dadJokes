@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import listStyles from './Profile.module.css';
 
 const Profile = () => {
 
@@ -16,16 +17,16 @@ const Profile = () => {
     })
 
     return(
-        <div>
-        <p>
+        <div className="container">
+        <p className="header">
             Welcome, {`${name}`}!
             Enter your phone number below to start
             the flow of daily dad jokes straight to your 
             mobile device. 
         </p>
-        <img src={`${image}`} alt="User image" style={{width: 100, height: 100}}></img>
-        <input type="tel" placeholder="Enter a valid phone number"></input>
-        <button>Submit</button>
+        <img className="photo" src={`${image}`} alt="User image"></img>
+        <input className="phone" type="tel" placeholder="Enter a valid phone number"></input>
+        <button className="submit">Submit</button>
     </div>
     )
    
