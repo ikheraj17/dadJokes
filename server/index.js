@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const mongoose = require('mongoose');
+const User = require('./db/models/user.js');
+mongoose.connect('mongodb://localhost/dadJokes', {useNewUrlParser: true, useUnifiedTopology: true});
 const path = require('path');
 const env = require('dotenv').config();
 const app = express();
@@ -25,8 +28,28 @@ passport.use(new GoogleStrategy({
     (accessToken, refreshToken, profile, cb) => {
         console.log(JSON.stringify(profile));
         user = {...profile};
-        return cb(null, profile);
-    }));
+        User.findById({_id: profile.id, name: profile.displayName, photo: profile.photos[0].value}, (err, user) => {
+            if(err) {
+                console.log("There was a findbyid issue");
+            } else {
+                console.log("this is the user: ", user);
+                if(user === null) {
+                    User.create({_id: profile.id, name: profile.displayName, photo: profile.photos[0].value}, (err, res) => {
+                        if(err) {
+                            console.log("error creating entry")
+                        } else {
+                            console.log("SUCCESS");
+                            return cb(err, res);
+                        }    
+                });
+
+            } else {
+                return cb(null, user);
+            }
+            
+        };
+        // return cb(null, profile);
+    })}));
 
 app.use(express.static(__dirname + '/../public'));
 
@@ -37,7 +60,6 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
 });
 
 app.get('/user', (req, res) => {
-    console.log('getting user data');
     res.send(user);
 });
 

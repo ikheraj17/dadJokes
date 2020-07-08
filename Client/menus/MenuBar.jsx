@@ -9,7 +9,7 @@ const MenuBar = () => {
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
   <Nav className="mr-auto">
-      <Nav.Link href="/">Logout</Nav.Link>
+      <Nav.Link href="/auth/logout">Logout</Nav.Link>
       <Nav.Link href="#link">Unsubscribe</Nav.Link>
     </Nav>
   </Navbar.Collapse>
