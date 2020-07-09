@@ -21,5 +21,8 @@ const App = () => {
         </Router>
     )
 }
+window.render = () => {
+    ReactDOM.render(<App />, document.getElementById('app'));
+}
 
-ReactDOM.render(<App />, document.getElementById('app'));
+window.render();

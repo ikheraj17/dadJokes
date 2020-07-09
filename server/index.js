@@ -7,6 +7,7 @@ const User = require('./db/models/user.js');
 mongoose.connect('mongodb://localhost/dadJokes', {useNewUrlParser: true, useUnifiedTopology: true});
 const path = require('path');
 const env = require('dotenv').config();
+const bodyParser = require('body-parser');
 const app = express();
 app.use(cors());
 app.use(passport.initialize());
@@ -48,10 +49,11 @@ passport.use(new GoogleStrategy({
             }
             
         };
-        // return cb(null, profile);
     })}));
 
 app.use(express.static(__dirname + '/../public'));
+
+app.use(bodyParser.json());
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
 
@@ -62,6 +64,26 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
 app.get('/user', (req, res) => {
     res.send(user);
 });
+
+app.get('/dbuser', (req, res) => {
+    console.log(user.id);
+    User.findOne({_id: user.id}, (err, doc) => {
+        res.send(doc);
+    });
+});
+
+app.post('/subscribe', (req, res) => {
+    console.log("this is the request body we need: ", req.body);
+    if(req.body.phone.toString().length !== 10) {
+        res.send("You must enter a valid phone number");
+        return;
+    } else {
+        User.findOneAndUpdate({_id: req.body.id}, {phone_number: req.body.phone}, {new: true}, (err, doc) => {
+            console.log("New doc: ", doc);
+        });
+        res.send("You have successfully added your phone to the DadJokes database");
+    }
+})
 
 app.get('/auth/logout', (req, res) => {
     console.log('logging out!');
