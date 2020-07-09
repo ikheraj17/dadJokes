@@ -10,7 +10,7 @@ const env = require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
 const cron = require("node-cron");
-const text = require('textbelt');
+const textbelt = require('textbelt');
 const axios = require('axios');
 app.use(cors());
 app.use(passport.initialize());
@@ -98,13 +98,39 @@ app.get('*', (req,res) =>{
 });
 
 cron.schedule("* * * * *", () => {
-    axios.get('https://icanhazdadjoke.com/',{
+    let results = [];
+    User.find({}, (err, docs) => {
+        if(err) {
+            console.log("error pulling phone numbers");
+        } else {
+            console.log(docs);
+            for(var i = 0; i < docs.length; i ++) {
+                if(docs[i].phone_number !== null) {
+                    results.push(docs[i].phone_number.toString());
+                    axios.get('https://icanhazdadjoke.com/',{
         headers:{
             'accept': 'application/json'
     }})
       .then(res => {
-          console.log(res.data.joke);
+          for(var j =0; j < results.length; j ++) {
+            textbelt("7135039594", res.data.joke, (err,res) => {
+                if (err) console.log(err);
+                if(res) console.log("no error:", res);
+            })
+          }
       })
+                }
+    //console.log("loop is working", docs[i].phone_number.toString());
+            }
+        }
+    })
+    // axios.get('https://icanhazdadjoke.com/',{
+    //     headers:{
+    //         'accept': 'application/json'
+    // }})
+    //   .then(res => {
+    //       console.log(res.data.joke);
+    //   })
 })
 
 const port = process.env.PORT || 3000;
