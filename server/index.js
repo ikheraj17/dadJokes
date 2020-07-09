@@ -12,6 +12,7 @@ const app = express();
 const cron = require("node-cron");
 const textbelt = require('textbelt');
 const axios = require('axios');
+const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 app.use(cors());
 app.use(passport.initialize());
 let user = {};
@@ -112,16 +113,24 @@ cron.schedule("* * * * *", () => {
             'accept': 'application/json'
     }})
       .then(res => {
-          for(var j =0; j < results.length; j ++) {
-              axios.post('https://textbelt.com/text', {
-                      phone: '7137057381',
-                      message: 'this is a dad joke',
-                      key: 'textbelt', 
-              })
-                .then(response => {
-                    console.log(response.data);
-                })
-          }
+        //   for(var j =0; j < results.length; j ++) {
+        //       axios.post('https://textbelt.com/text', {
+        //               phone: '7137057381',
+        //               message: 'this is a dad joke',
+        //               key: 'textbelt', 
+        //       })
+        //         .then(response => {
+        //             console.log(response.data);
+        //         })
+        //   }
+        for(var j = 0; j < results.length; j ++) {
+            twilio.messages.create({
+                body: res.data.joke,
+                from: '+17133520619',
+                to: `+1${results[j]}`
+            })
+              .then(message => console.log("WHAT", message.sid));
+        }
       })
                 }
     //console.log("loop is working", docs[i].phone_number.toString());

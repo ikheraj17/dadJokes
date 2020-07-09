@@ -29,7 +29,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "style-loader": "^1.2.1",
-    "textbelt": "github:minond/textbelt"
+    "textbelt": "github:minond/textbelt",
+    "twilio": "^3.48.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
