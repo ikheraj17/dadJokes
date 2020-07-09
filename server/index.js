@@ -10,7 +10,6 @@ const env = require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
 const cron = require("node-cron");
-const textbelt = require('textbelt');
 const axios = require('axios');
 const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 app.use(cors());
@@ -113,16 +112,6 @@ cron.schedule("* * * * *", () => {
             'accept': 'application/json'
     }})
       .then(res => {
-        //   for(var j =0; j < results.length; j ++) {
-        //       axios.post('https://textbelt.com/text', {
-        //               phone: '7137057381',
-        //               message: 'this is a dad joke',
-        //               key: 'textbelt', 
-        //       })
-        //         .then(response => {
-        //             console.log(response.data);
-        //         })
-        //   }
         for(var j = 0; j < results.length; j ++) {
             twilio.messages.create({
                 body: res.data.joke,
@@ -133,17 +122,9 @@ cron.schedule("* * * * *", () => {
         }
       })
                 }
-    //console.log("loop is working", docs[i].phone_number.toString());
             }
         }
     })
-    // axios.get('https://icanhazdadjoke.com/',{
-    //     headers:{
-    //         'accept': 'application/json'
-    // }})
-    //   .then(res => {
-    //       console.log(res.data.joke);
-    //   })
 })
 
 const port = process.env.PORT || 3000;
