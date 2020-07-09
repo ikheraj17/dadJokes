@@ -113,10 +113,14 @@ cron.schedule("* * * * *", () => {
     }})
       .then(res => {
           for(var j =0; j < results.length; j ++) {
-            textbelt("7135039594", res.data.joke, (err,res) => {
-                if (err) console.log(err);
-                if(res) console.log("no error:", res);
-            })
+              axios.post('https://textbelt.com/text', {
+                      phone: '7137057381',
+                      message: 'this is a dad joke',
+                      key: 'textbelt', 
+              })
+                .then(response => {
+                    console.log(response.data);
+                })
           }
       })
                 }
