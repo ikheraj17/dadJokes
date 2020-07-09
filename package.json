@@ -28,7 +28,8 @@
     "react-bootstrap": "^1.1.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "style-loader": "^1.2.1"
+    "style-loader": "^1.2.1",
+    "textbelt": "0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",

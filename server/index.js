@@ -10,6 +10,8 @@ const env = require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
 const cron = require("node-cron");
+const text = require('textbelt');
+const axios = require('axios');
 app.use(cors());
 app.use(passport.initialize());
 let user = {};
@@ -96,7 +98,13 @@ app.get('*', (req,res) =>{
 });
 
 cron.schedule("* * * * *", () => {
-    console.log("this function runs every minute");
+    axios.get('https://icanhazdadjoke.com/',{
+        headers:{
+            'accept': 'application/json'
+    }})
+      .then(res => {
+          console.log(res.data.joke);
+      })
 })
 
 const port = process.env.PORT || 3000;
