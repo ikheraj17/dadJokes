@@ -66,7 +66,6 @@ app.get('/user', (req, res) => {
 });
 
 app.get('/dbuser', (req, res) => {
-    console.log(user.id);
     User.findOne({_id: user.id}, (err, doc) => {
         res.send(doc);
     });
