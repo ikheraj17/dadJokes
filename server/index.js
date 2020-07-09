@@ -9,6 +9,7 @@ const path = require('path');
 const env = require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
+const cron = require("node-cron");
 app.use(cors());
 app.use(passport.initialize());
 let user = {};
@@ -93,6 +94,10 @@ app.get('/auth/logout', (req, res) => {
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname + '/../public/index.html'));
 });
+
+cron.schedule("* * * * *", () => {
+    console.log("this function runs every minute");
+})
 
 const port = process.env.PORT || 3000;
 
