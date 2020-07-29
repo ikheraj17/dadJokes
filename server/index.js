@@ -30,13 +30,11 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback'
 }, 
     (accessToken, refreshToken, profile, cb) => {
-        console.log(JSON.stringify(profile));
         user = {...profile};
         User.findById({_id: profile.id, name: profile.displayName, photo: profile.photos[0].value}, (err, user) => {
             if(err) {
                 console.log("There was a findbyid issue");
             } else {
-                console.log("this is the user: ", user);
                 if(user === null) {
                     User.create({_id: profile.id, name: profile.displayName, photo: profile.photos[0].value}, (err, res) => {
                         if(err) {
@@ -75,7 +73,6 @@ app.get('/dbuser', (req, res) => {
 });
 
 app.post('/subscribe', (req, res) => {
-    console.log("this is the request body we need: ", req.body);
     if(req.body.phone.toString().length !== 10) {
         res.send("You must enter a valid phone number");
         return;
@@ -93,39 +90,52 @@ app.get('/auth/logout', (req, res) => {
     res.redirect('/');
 });
 
+app.get('/unsubscribe', (req, res) => {
+    console.log(user.id);
+    User.deleteOne({_id: user.id}, (err, response) => {
+        if (err) console.log(err);
+        if (response) console.log(response);
+
+    });
+    console.log('User ubsubscribed');
+    res.redirect('/');
+});
+
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname + '/../public/index.html'));
 });
 
-cron.schedule("* * * * *", () => {
-    let results = [];
-    User.find({}, (err, docs) => {
-        if(err) {
-            console.log("error pulling phone numbers");
-        } else {
-            console.log(docs);
-            for(var i = 0; i < docs.length; i ++) {
-                if(docs[i].phone_number !== null) {
-                    results.push(docs[i].phone_number.toString());
-                    axios.get('https://icanhazdadjoke.com/',{
-        headers:{
-            'accept': 'application/json'
-    }})
-      .then(res => {
-        for(var j = 0; j < results.length; j ++) {
-            twilio.messages.create({
-                body: res.data.joke,
-                from: '+17133520619',
-                to: `+1${results[j]}`
-            })
-              .then(message => console.log("WHAT", message.sid));
-        }
-      })
-                }
-            }
-        }
-    })
-})
+// cron.schedule("* * * * *", () => {
+//     let results = [];
+//     User.find({}, (err, docs) => {
+//         if(err) {
+//             console.log("error pulling phone numbers");
+//         } else {
+//             console.log(docs);
+//             for(var i = 0; i < docs.length; i ++) {
+//                 if(docs[i].phone_number !== null) {
+//                     results.push(docs[i].phone_number.toString());
+//                     axios.get('https://icanhazdadjoke.com/',{
+//         headers:{
+//             'accept': 'application/json'
+//     }})
+//       .then(res => {
+//           console.log(results);
+//         for(var j = 0; j < results.length; j ++) {
+//             twilio.messages.create({
+//                 body: res.data.joke,
+//                 from: '+17133520619',
+//                 to: `+1${results[j]}`
+//             })
+//               .then(message => console.log("message sent"))
+//               .catch(err => console.log(err));
+//         }
+//       })
+//                 }
+//             }
+//         }
+//     })
+// })
 
 const port = process.env.PORT || 3000;
 

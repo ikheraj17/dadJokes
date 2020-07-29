@@ -39,7 +39,8 @@ const Profile = () => {
     }
 
     return(
-        <div className="container">
+        <div>
+            <div className='container'>
         <p className="header">
             Welcome, {`${name}`}!
             Enter your phone number below to start
@@ -47,9 +48,12 @@ const Profile = () => {
             mobile device. 
         </p>
         <img className="photo" src={`${image}`} alt="User image"></img>
-        <input className="phone" type="tel" placeholder="Enter a valid phone number" onChange={e => {setPhone(Number(e.target.value))}}></input>
+        <textarea className="phone" type="tel" placeholder="Enter a valid phone number" onChange={e => {setPhone(Number(e.target.value))}}></textarea>
+        </div>
+        <div className='container'>
         <button className="submit" onClick={addPhone}>Submit</button>
-    <p>Your current phone number is: {currentNum || null}. If you'd like to change that, type a new number in the text box above!</p>
+    <p className="header">Your current phone number is: {currentNum || null}. If you'd like to change that, type a new number in the text box above!</p>
+       </div>
     </div>
     )
    

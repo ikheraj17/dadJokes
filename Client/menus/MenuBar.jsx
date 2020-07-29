@@ -10,7 +10,7 @@ const MenuBar = () => {
   <Navbar.Collapse id="basic-navbar-nav">
   <Nav className="mr-auto">
       <Nav.Link href="/auth/logout">Logout</Nav.Link>
-      <Nav.Link href="#link">Unsubscribe</Nav.Link>
+      <Nav.Link href="/unsubscribe">Unsubscribe</Nav.Link>
     </Nav>
   </Navbar.Collapse>
 </Navbar>

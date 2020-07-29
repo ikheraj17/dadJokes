@@ -1,7 +1,20 @@
+@media only screen and (min-width: 900px) {
+    
+    .button {
+        font-size: 50px;
+        color: rgb(39, 150, 224);
+        padding: 30px;
+        margin-top: 50%;
 
+    }
+
+    .welcome {
+        font-size: 60px;
+    }
+}
 
 .header {
-    grid-area: header;
+    font-size: 30px;
 }
 
 .photo {
@@ -10,8 +23,9 @@
     margin-left: auto;
     margin-right: auto;
     width: 25%;
-    height: 30%;
-    margin-bottom: 20px;
+    height: 40%;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .phone {
@@ -19,24 +33,53 @@
 }
 
 .submit {
-    margin-bottom: 10%;
+    font-weight: bold;
+    width: 150px;
+    padding: 20px;
+    font-size: 25px;
+    border-radius: 20px;
+    margin: 10%;
+}
+
+.submit:hover {
+    background-color: rgb(30, 233, 206);
 }
 
 .container {
-    /* display: grid;
-    grid-template-columns: 500px 500px 500px;
-    grid-template-rows: auto;
-    grid-template-areas:
-    "header header header"
-    ". pic ."
-    "footer footer submit";
-    justify-content: center; */
-    width: 700px;
+    width: 75%;
     margin: 0 auto;
     text-align: center;
 }
 
+.newContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    border-radius: 15px;
+    background-color: white;
+    font-size: 40px;
+    color: rgb(39, 150, 224);
+}
+
+.button:hover {
+    color: white;
+    background-color: rgb(39, 150, 224);
+}
+
 p {
     font-weight: 700;
+}
+
+.welcome {
+    font-size: 60px;
+}
+
+.phone {
+    font-size: 30px;
+    height: 100px;
 }
 

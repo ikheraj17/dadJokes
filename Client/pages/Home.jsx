@@ -2,10 +2,10 @@ import React from 'react';
 
 const Home = () => {
     return (
-        <div>
-            <p>Welcome to the Wonderland of Dad Jokes!</p>
+        <div className="container">
+            <p className="welcome">Welcome to the Wonderland of Dad Jokes!</p>
             <form action="auth/google">
-                <input type="submit" value="Log in with google to get started!" />
+                <input className="button" type="submit" value="Log in with google" />
             </form>
         </div>
     )
